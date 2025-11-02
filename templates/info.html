@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/x-icon">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/arti_main_style.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dayman Maak</title>
+    </head>
+
+    <body>
+
+        <!-- Header -->
+        <header class="main-header">
+            <div class="container header-container">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Dayman Maak Logo" class="logo" />
+
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <nav class="nav-menu" id="nav-menu">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/info">Places</a></li>
+                        <li><a href="/chatbot">Chatbot</a></li>
+                        <li><a href="/#services">Services</a></li>
+                        <li><a href="/#community">Community</a></li>
+                        <li><a href="/map">Map</a></li>
+                        <li><a href="/#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Menu toggle animation -->
+        <script>
+            const me = document.querySelector(".menu-toggle");
+            const navMenu = document.getElementById("nav-menu");
+
+            me.addEventListener("click", () => {
+                me.classList.toggle("rotate");
+                setTimeout(() => {
+                    navMenu.classList.toggle("active");
+                }, 200);
+                setTimeout(() => {
+                    me.classList.toggle("rotate_");
+                    me.classList.remove("rotate");
+                }, 500);
+            });
+        </script>
+
+        <style>
+            .rotate {
+                animation: rotate 0.5s linear;
+            }
+
+            @keyframes rotate {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(90deg);
+                }
+
+                100% {
+                    transform: rotate(90deg);
+                }
+            }
+
+            .rotate_ {
+                transform: rotate(90deg);
+            }
+        </style>
+
+        <!-- Search and Filter Section -->
+        <section>
+            <div class="container">
+                <div class="search-container">
+                    <form class="search-box">
+                        <input type="text" name="query" placeholder="Search for a place..." id="find">
+
+                        <div class="dropdown">
+                            <button type="button" class="dropbtn">Filter by Type</button>
+                            <div class="dropdown-content">
+                                <a href="#" data-type="all">All</a>
+                                <a href="#" data-type="bank">Banks</a>
+                                <a href="#" data-type="hotel">Hotels</a>
+                                <a href="#" data-type="restaurant">Restaurants</a>
+                                <a href="#" data-type="school">Schools</a>
+                                <a href="#" data-type="hospital">Hospitals</a>
+                                <a href="#" data-type="college">College</a>
+                            </div>
+                        </div>
+
+                        <div class="no-results"
+                            style="display:none; text-align:center; margin-top:20px; font-size:1.2em; color:#666;">
+                            <i class="fas fa-exclamation-triangle" style="color:#ff7b00; margin-right:10px;"></i>
+                            No places found.
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Cards -->
+                <div class="content">
+                    {% for place in place %}
+                    <a href="{{ place[2] }}">
+                        <div class="tourism_places-card" data-type="{{ place[6] }}">
+                            <div class="p-image">
+                                <img src="{{ place[0] }}" alt="{{ place[2] }}">
+                            </div>
+
+                            <div class="p-info">
+                                <p class="p-category">{{ place[1].replace('_', ' ').title() }}</p>
+                                <h3 class="p-title">{{ place[5] }}</h3>
+
+                                <br>
+                                <strong>
+                                    <span>
+                                        <a href="{{ place[2] }}" class="more-details">More details</a>
+                                    </span>
+                                </strong>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Search + Filter Logic -->
+        <script>
+            const searchInput = document.getElementById('find');
+            const filterLinks = document.querySelectorAll('.dropdown-content a');
+            const dropdownBtn = document.querySelector('.dropbtn');
+            const dropdownContent = document.querySelector('.dropdown-content');
+            const placeCards = document.querySelectorAll('.tourism_places-card');
+            const noResultsMessage = document.querySelector('.no-results');
+
+            let selectedType = 'all'; // النوع الحالي المختار
+
+            // فتح وغلق القائمة
+            dropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+                    dropdownContent.style.display = 'none';
+                }
+            });
+
+            // دالة البحث + التصفية مع بعض
+            function filterAndSearch() {
+                const query = searchInput.value.toLowerCase();
+                let visibleCount = 0;
+
+                placeCards.forEach(card => {
+                    const title = card.querySelector('.p-category').textContent.toLowerCase();
+                    const cardType = card.dataset.type ? card.dataset.type.toLowerCase() : '';
+
+                    const matchesSearch = title.includes(query);
+                    const matchesType = selectedType === 'all' || cardType === selectedType;
+
+                    if (matchesSearch && matchesType) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            // البحث الفوري
+            searchInput.addEventListener('input', filterAndSearch);
+
+            // عند اختيار نوع من القائمة
+            filterLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    selectedType = this.getAttribute('data-type').toLowerCase();
+                    filterAndSearch();
+                    dropdownContent.style.display = 'none';
+                });
+            });
+        </script>
+        <script>
+            // لو فيه اسم مكان متسجل من الصفحة الأولى
+            const savedName = localStorage.getItem('placeName');
+
+            if (savedName) {
+                const searchBox = document.getElementById('find');
+
+                // نحط الاسم في صندوق البحث
+                searchBox.value = savedName;
+
+                // نمسح القيمة بعد الاستخدام
+                localStorage.removeItem('placeName');
+
+                // نشغل حدث البحث تلقائي
+                const event = new Event('input');
+                searchBox.dispatchEvent(event);
+            }
+        </script>
+
+    </body>
+
+</html>

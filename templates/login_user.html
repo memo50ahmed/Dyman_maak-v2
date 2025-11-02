@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dayman Maak | Login</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/x-icon" />
+
+        <style>
+            /* ===========================
+       Modern Login Page Style
+       =========================== */
+            body {
+                margin: 0;
+                font-family: 'Poppins', sans-serif;
+                background: linear-gradient(135deg, #ff9a3d, #ff5f6d);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }
+
+            .login-container {
+                background: #fff;
+                padding: 40px 35px;
+                border-radius: 16px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                width: 100%;
+                max-width: 400px;
+                transition: transform 0.3s ease;
+            }
+
+            .login-container:hover {
+                transform: translateY(-5px);
+            }
+
+            .login-container h2 {
+                text-align: center;
+                color: #ff5f00;
+                margin-bottom: 25px;
+                font-weight: 600;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            label {
+                font-weight: 500;
+                color: #333;
+                font-size: 0.95rem;
+            }
+
+            input {
+                padding: 10px 12px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                font-size: 0.95rem;
+                transition: all 0.2s ease;
+            }
+
+            input:focus {
+                border-color: #ff5f00;
+                outline: none;
+                box-shadow: 0 0 5px rgba(255, 95, 0, 0.4);
+            }
+
+            button {
+                background-color: #ff5f00;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 1rem;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            button:hover {
+                background-color: #e85500;
+                transform: scale(1.03);
+            }
+
+            .bottom-text {
+                text-align: center;
+                margin-top: 15px;
+                font-size: 0.9rem;
+            }
+
+            .bottom-text a {
+                color: #ff5f00;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+            .bottom-text a:hover {
+                text-decoration: underline;
+            }
+
+            .logo {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 15px;
+            }
+
+            .logo img {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <div class="login-container">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Dayman Maak Logo">
+                </div>
+                <h2>Welcome Back</h2>
+                <form action="/login_user_act" method="POST">
+                    <div>
+                        <label for="username">Username or Email</label>
+                        <input type="text" id="username" name="username" required />
+                    </div>
+
+                    <div>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required />
+                    </div>
+
+                    <button type="submit">Login</button>
+
+                    <div class="bottom-text">
+                        Don’t have an account? <a href="/signup">Sign up</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </body>
+
+</html>

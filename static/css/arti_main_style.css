@@ -1,0 +1,176 @@
+
+section {
+    padding: 60px 20px;
+    background: #f9f9f9;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+/* flag behinde info */
+.tourism_places-card {
+    background-color: rgb(255, 111, 0);
+    border: 1px solid #fff;
+    min-height: 14em;
+    width: 23em;
+    justify-content: center;
+
+    box-shadow: 0 5px 25px rgba(128, 128, 128, 15%);
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 20px;
+    transition: 0.7s ease;
+}
+
+.tourism_places-card:hover {
+    transform: scale(1.1);
+}
+
+.tourism_places-card:hover .p-image {
+    opacity: 0.9;
+
+}
+
+.p-image img {
+    width: 100%;
+}
+
+.p-info {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    padding: 1em;
+}
+
+.p-category {
+    display: flex;
+    font-weight: 500;
+    font-size: 2em;
+    color: white;
+    justify-content: space-between;
+    align-items: center;
+    /* لتمركز العناصر رأسياً */
+    margin-top: 10px;
+}
+
+
+hr {
+    border: none;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(219, 216, 216);
+}
+
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ======= Search Container ======= */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin: 50px auto;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+}
+
+/* ======= Search Input ======= */
+.search-box input[type="text"] {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    width: 350px;
+}
+
+/* ======= Buttons (Search + Filter) ======= */
+.search-box button,
+.dropbtn {
+    background-color: #ff7b00;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.search-box button:hover,
+.dropbtn:hover {
+    background-color: #ff5500;
+}
+
+/* ======= Dropdown ======= */
+/* ======= Dropdown ======= */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 45px;
+    background-color: #fff;
+    min-width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    z-index: 10;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #ff7b00;
+    color: white;
+}
+
+/* أزلنا قاعدة :hover لأنها السبب في المشكلة */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card1, .card2 {
+        width: 90%;
+        margin-right: 0;
+    }
+}
