@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dayman Maak | Sign Up</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}" type="image/x-icon" />
+
+        <style>
+            /* ===========================
+       Modern Sign Up Page Style
+       =========================== */
+            body {
+                margin: 0;
+                font-family: 'Poppins', sans-serif;
+                background: linear-gradient(135deg, #ff9a3d, #ff5f6d);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }
+
+            .signup-container {
+                background: #fff;
+                padding: 40px 35px;
+                border-radius: 16px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                width: 100%;
+                max-width: 420px;
+                transition: transform 0.3s ease;
+            }
+
+            .signup-container:hover {
+                transform: translateY(-5px);
+            }
+
+            .signup-container h2 {
+                text-align: center;
+                color: #ff5f00;
+                margin-bottom: 25px;
+                font-weight: 600;
+            }
+            img {
+                display: block;
+                margin: 0 auto 20px auto;
+                width: 80px;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            label {
+                font-weight: 500;
+                color: #333;
+                font-size: 0.95rem;
+            }
+
+            input {
+                padding: 10px 12px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                font-size: 0.95rem;
+                transition: all 0.2s ease;
+            }
+
+            input:focus {
+                border-color: #ff5f00;
+                outline: none;
+                box-shadow: 0 0 5px rgba(255, 95, 0, 0.4);
+            }
+
+            button {
+                background-color: #ff5f00;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 12px;
+                font-size: 1rem;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            button:hover {
+                background-color: #e85500;
+                transform: scale(1.03);
+            }
+
+            .bottom-text {
+                text-align: center;
+                margin-top: 15px;
+                font-size: 0.9rem;
+            }
+
+            .bottom-text a {
+                color: #ff5f00;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+            .bottom-text a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <div class="signup-container">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="">
+                <h2>Create Your Account</h2>
+                <form action="/register" method="POST">
+                    <div>
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required />
+                    </div>
+
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required />
+                    </div>
+
+                    <div>
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" name="phone" required />
+                    </div>
+
+                    <div>
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" required />
+                        <button type="button">Locate</button>
+                        <script>
+                            document.querySelector('button[type="button"]').addEventListener('click', function() {
+                                if (navigator.geolocation) {
+                                    navigator.geolocation.getCurrentPosition(function(position) {
+                                        const lat = position.coords.latitude;
+                                        const lon = position.coords.longitude;
+                                        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                document.getElementById('address').value = data.display_name;
+                                            })
+                                            .catch(error => {
+                                                alert('Error fetching address: ' + error);
+                                            });
+                                    }, function() {
+                                        alert('Geolocation failed or permission denied.');
+                                    });
+                                } else {
+                                    alert('Geolocation is not supported by this browser.');
+                                }
+                            });
+                        </script>
+                    </div>
+
+                    <div>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required />
+                    </div>
+
+                    <div>
+                        <label for="conf_pass">Confirm Password</label>
+                        <input type="password" id="conf_pass" name="conf_pass" required />
+                    </div>
+
+                    <button type="submit">Register</button>
+
+                    <div class="bottom-text">
+                        Already have an account? <a href="/login_user">Login here</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </body>
+
+</html>
